@@ -44,17 +44,12 @@ async function runTick(dispatch: AppDispatch, getState: () => RootState) {
     return
   }
 
-  // TODO [Level 3]: Implement live price tick logic in middleware
-  // Hint:
-  //   1) await fetchPriceTick(assetIds)
-  //   2) dispatch(applyPriceTicks(ticks))
-  //   3) swallow errors so a single failed tick does not stop the interval
-  //
-  // FALLBACK: no-op — live middleware ticks will not update market.quotes yet.
-  void dispatch
-  void fetchPriceTick
-  void applyPriceTicks
-  void assetIds
+  try {
+    const ticks = await fetchPriceTick(assetIds)
+    dispatch(applyPriceTicks(ticks))
+  } catch {
+    // Tick failures are non-fatal; the next interval will retry.
+  }
 }
 
 function restartTicker(dispatch: AppDispatch, getState: () => RootState) {
