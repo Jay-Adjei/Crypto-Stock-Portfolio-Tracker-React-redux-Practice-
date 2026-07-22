@@ -21,9 +21,13 @@ export function LiveQuotesPanel() {
     return tracked.length > 0 ? tracked : ASSET_CATALOG.slice(0, 4).map((a) => a.id)
   }, [watchlistIds, holdingIds])
 
-  const { data, error, isFetching, refetch } = useGetLiveQuotesQuery(assetIds, {
-    pollingInterval: pollingEnabled ? pollingIntervalMs : 0,
-  })
+  // TODO [Level 3]: Enable RTK Query pollingInterval for live quotes
+  // Hint: pass options as the second argument:
+  //   { pollingInterval: pollingEnabled ? pollingIntervalMs : 0 }
+  // FALLBACK: one-shot fetch only (no polling) until you wire the option.
+  void pollingEnabled
+  void pollingIntervalMs
+  const { data, error, isFetching, refetch } = useGetLiveQuotesQuery(assetIds)
 
   return (
     <section className="animate-slide-in rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5">

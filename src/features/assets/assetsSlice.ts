@@ -20,14 +20,28 @@ const assetsSlice = createSlice({
   initialState,
   reducers: {
     addWatchlistAsset(state, action: PayloadAction<Asset>) {
-      const exists = state.watchlist.some((asset) => asset.id === action.payload.id)
-      if (!exists) {
-        state.watchlist.push(action.payload)
-      }
+      // TODO [Level 1]: Implement addWatchlistAsset reducer
+      // Hint: Skip duplicates, then push action.payload onto state.watchlist.
+      //
+      // Example shape (do not leave uncommented until you implement it):
+      // const exists = state.watchlist.some((asset) => asset.id === action.payload.id)
+      // if (!exists) {
+      //   state.watchlist.push(action.payload)
+      // }
+      //
+      // FALLBACK: leave state unchanged so the app still compiles.
+      void state
+      void action
     },
     removeWatchlistAsset(state, action: PayloadAction<string>) {
-      state.watchlist = state.watchlist.filter((asset) => asset.id !== action.payload)
+      // TODO [Level 1]: Implement removeWatchlistAsset reducer
+      // Hint: Filter state.watchlist where asset.id !== action.payload.
+      //
+      // FALLBACK: leave state unchanged so the app still compiles.
+      void state
+      void action
     },
+    // Worked example — holdings reducers are provided so Level 1 can focus on the watchlist.
     upsertHolding(state, action: PayloadAction<Holding>) {
       const existing = state.holdings.find((h) => h.assetId === action.payload.assetId)
       if (existing) {

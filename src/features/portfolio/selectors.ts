@@ -25,72 +25,64 @@ export const selectFxMultiplier = createSelector(
   (currency: FiatCurrency) => FX_RATES[currency] ?? 1,
 )
 
-/** Total portfolio value in the selected fiat currency. */
-export const selectTotalPortfolioValue = createSelector(
-  [selectHoldings, selectQuotes, selectFxMultiplier],
-  (holdings, quotes, fx) => {
-    return holdings.reduce((total, holding) => {
-      const quote = quotes[holding.assetId]
-      if (!quote) {
-        return total
-      }
-      return total + holding.quantity * quote.price * fx
-    }, 0)
-  },
-)
+/**
+ * TODO [Level 3]: Write memoized selector for total portfolio value
+ *
+ * Replace this naive function with createSelector([...inputs], (holdings, quotes, fx) => ...)
+ * so the total is only recomputed when holdings, quotes, or FX change.
+ *
+ * Formula: sum(holding.quantity * quote.price * fx) for holdings that have quotes.
+ *
+ * FALLBACK: always returns 0 so the app compiles and renders.
+ */
+export const selectTotalPortfolioValue = (_state: RootState): number => {
+  void selectHoldings
+  void selectQuotes
+  void selectFxMultiplier
+  void createSelector
+  return 0
+}
 
-/** Per-holding breakdown with allocation percentages. */
-export const selectPortfolioPositions = createSelector(
-  [selectHoldings, selectQuotes, selectFxMultiplier, selectTotalPortfolioValue],
-  (holdings, quotes, fx, totalValue): PositionView[] => {
-    return holdings
-      .map((holding) => {
-        const asset = getAssetById(holding.assetId)
-        const quote = quotes[holding.assetId]
-        const price = (quote?.price ?? 0) * fx
-        const value = holding.quantity * price
-        return {
-          assetId: holding.assetId,
-          symbol: asset?.symbol ?? holding.assetId.toUpperCase(),
-          name: asset?.name ?? holding.assetId,
-          type: asset?.type ?? 'stock',
-          quantity: holding.quantity,
-          price,
-          value,
-          change24h: quote?.change24h ?? 0,
-          allocationPct: totalValue > 0 ? (value / totalValue) * 100 : 0,
-        }
-      })
-      .sort((a, b) => b.value - a.value)
-  },
-)
+/**
+ * TODO [Level 3]: Write memoized selector for portfolio positions / allocation
+ *
+ * Build a PositionView[] with price, value, change24h, and allocationPct
+ * (value / totalValue * 100). Sort by value descending.
+ *
+ * Prefer createSelector and reuse selectTotalPortfolioValue.
+ *
+ * FALLBACK: empty list.
+ */
+export const selectPortfolioPositions = (_state: RootState): PositionView[] => {
+  void getAssetById
+  void selectHoldings
+  void selectQuotes
+  void selectFxMultiplier
+  void selectTotalPortfolioValue
+  return []
+}
 
-/** Top gainers among watchlist + holdings by 24h change. */
-export const selectTopGainers = createSelector(
-  [selectWatchlist, selectHoldings, selectQuotes],
-  (watchlist, holdings, quotes) => {
-    const ids = new Set([
-      ...watchlist.map((asset) => asset.id),
-      ...holdings.map((holding) => holding.assetId),
-    ])
-
-    return Array.from(ids)
-      .map((assetId) => {
-        const asset = getAssetById(assetId)
-        const quote = quotes[assetId]
-        return {
-          assetId,
-          symbol: asset?.symbol ?? assetId.toUpperCase(),
-          name: asset?.name ?? assetId,
-          change24h: quote?.change24h ?? 0,
-          price: quote?.price ?? 0,
-        }
-      })
-      .filter((row) => row.price > 0)
-      .sort((a, b) => b.change24h - a.change24h)
-      .slice(0, 5)
-  },
-)
+/**
+ * TODO [Level 3]: Write memoized selector for top gainers
+ *
+ * Union watchlist + holdings asset IDs, read change24h from quotes,
+ * sort descending, return top 5.
+ *
+ * FALLBACK: empty list.
+ */
+export const selectTopGainers = (_state: RootState) => {
+  void selectWatchlist
+  void selectHoldings
+  void selectQuotes
+  void getAssetById
+  return [] as Array<{
+    assetId: string
+    symbol: string
+    name: string
+    change24h: number
+    price: number
+  }>
+}
 
 export const selectAllocationBreakdown = createSelector(
   [selectPortfolioPositions],

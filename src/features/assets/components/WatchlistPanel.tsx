@@ -1,11 +1,20 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { ASSET_CATALOG } from '../../../data/mockAssets'
+import type { Asset } from '../../../types'
 import { addWatchlistAsset, removeWatchlistAsset } from '../assetsSlice'
+
+const EMPTY_WATCHLIST: Asset[] = []
 
 export function WatchlistPanel() {
   const dispatch = useAppDispatch()
-  const watchlist = useAppSelector((state) => state.assets.watchlist)
+
+  // TODO [Level 1]: Select watchlist from the store
+  // Hint: const watchlist = useAppSelector((state) => state.assets.watchlist)
+  // FALLBACK: empty array so the UI renders before you wire the selector.
+  const watchlist = useAppSelector(() => EMPTY_WATCHLIST)
+  void dispatch
+
   const [selectedId, setSelectedId] = useState(ASSET_CATALOG[0]?.id ?? '')
 
   const available = ASSET_CATALOG.filter(
@@ -14,9 +23,21 @@ export function WatchlistPanel() {
 
   const handleAdd = () => {
     const asset = ASSET_CATALOG.find((item) => item.id === selectedId)
-    if (asset) {
-      dispatch(addWatchlistAsset(asset))
+    if (!asset) {
+      return
     }
+
+    // TODO [Level 1]: Dispatch addWatchlistAsset from the watchlist UI
+    // Hint: dispatch(addWatchlistAsset(asset))
+    void addWatchlistAsset
+    void asset
+  }
+
+  const handleRemove = (assetId: string) => {
+    // TODO [Level 1]: Dispatch removeWatchlistAsset when Remove is clicked
+    // Hint: dispatch(removeWatchlistAsset(assetId))
+    void removeWatchlistAsset
+    void assetId
   }
 
   return (
@@ -57,7 +78,7 @@ export function WatchlistPanel() {
       <ul className="mt-4 space-y-2">
         {watchlist.length === 0 ? (
           <li className="text-sm text-[var(--color-muted)]">
-            Watchlist is empty. Add an asset to get started.
+            Watchlist is empty. Implement the reducer + dispatch wiring to add assets.
           </li>
         ) : (
           watchlist.map((asset) => (
@@ -76,7 +97,7 @@ export function WatchlistPanel() {
               </div>
               <button
                 type="button"
-                onClick={() => dispatch(removeWatchlistAsset(asset.id))}
+                onClick={() => handleRemove(asset.id)}
                 className="text-sm text-[var(--color-loss)] hover:underline"
               >
                 Remove

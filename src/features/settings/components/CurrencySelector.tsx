@@ -10,11 +10,24 @@ const CURRENCIES: FiatCurrency[] = ['USD', 'EUR', 'GBP']
 
 export function CurrencySelector() {
   const dispatch = useAppDispatch()
-  const baseCurrency = useAppSelector((state) => state.settings.baseCurrency)
+
+  // TODO [Level 1]: Select baseCurrency from the store
+  // Hint: useAppSelector((state) => state.settings.baseCurrency)
+  // FALLBACK: hard-coded USD so the select control still renders.
+  const baseCurrency = useAppSelector(() => 'USD' as FiatCurrency)
+
   const pollingEnabled = useAppSelector((state) => state.settings.pollingEnabled)
   const pollingIntervalMs = useAppSelector(
     (state) => state.settings.pollingIntervalMs,
   )
+
+  const handleCurrencyChange = (currency: FiatCurrency) => {
+    // TODO [Level 1]: Dispatch setBaseCurrency from the settings UI
+    // Hint: dispatch(setBaseCurrency(currency))
+    void setBaseCurrency
+    void currency
+    void dispatch
+  }
 
   return (
     <section className="animate-slide-in rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5">
@@ -31,7 +44,7 @@ export function CurrencySelector() {
           className="mt-1 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2 text-[var(--color-text)]"
           value={baseCurrency}
           onChange={(event) =>
-            dispatch(setBaseCurrency(event.target.value as FiatCurrency))
+            handleCurrencyChange(event.target.value as FiatCurrency)
           }
         >
           {CURRENCIES.map((currency) => (
