@@ -10,7 +10,7 @@ export function WatchlistPanel() {
   const dispatch = useAppDispatch()
 
   // TODO [Level 1]: Select watchlist from the store
-  const watchlist = useAppSelector(() => EMPTY_WATCHLIST)
+  const watchlist = useAppSelector((state) => state.assets.watchlist) || EMPTY_WATCHLIST;
   void dispatch
 
   const [selectedId, setSelectedId] = useState(ASSET_CATALOG[0]?.id ?? '')
@@ -26,8 +26,7 @@ export function WatchlistPanel() {
     }
 
     // TODO [Level 1]: Dispatch addWatchlistAsset from the watchlist UI
-    void addWatchlistAsset
-    void asset
+    dispatch(addWatchlistAsset(asset));
   }
 
   const handleRemove = (assetId: string) => {
