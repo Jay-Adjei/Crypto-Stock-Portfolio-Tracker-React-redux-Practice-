@@ -1,39 +1,40 @@
-import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { ASSET_CATALOG } from '../../../data/mockAssets'
-import type { Asset } from '../../../types'
-import { addWatchlistAsset, removeWatchlistAsset } from '../assetsSlice'
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { ASSET_CATALOG } from "../../../data/mockAssets";
+import type { Asset } from "../../../types";
+import { addWatchlistAsset, removeWatchlistAsset } from "../assetsSlice";
 
-const EMPTY_WATCHLIST: Asset[] = []
+const EMPTY_WATCHLIST: Asset[] = [];
 
 export function WatchlistPanel() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // TODO [Level 1]: Select watchlist from the store
-  const watchlist = useAppSelector((state) => state.assets.watchlist) || EMPTY_WATCHLIST;
-  void dispatch
+  const watchlist =
+    useAppSelector((state) => state.assets.watchlist) || EMPTY_WATCHLIST;
+  void dispatch;
 
-  const [selectedId, setSelectedId] = useState(ASSET_CATALOG[0]?.id ?? '')
+  const [selectedId, setSelectedId] = useState(ASSET_CATALOG[0]?.id ?? "");
 
   const available = ASSET_CATALOG.filter(
     (asset) => !watchlist.some((item) => item.id === asset.id),
-  )
+  );
 
   const handleAdd = () => {
-    const asset = ASSET_CATALOG.find((item) => item.id === selectedId)
+    const asset = ASSET_CATALOG.find((item) => item.id === selectedId);
     if (!asset) {
-      return
+      return;
     }
 
     // TODO [Level 1]: Dispatch addWatchlistAsset from the watchlist UI
     dispatch(addWatchlistAsset(asset));
-  }
+  };
 
   const handleRemove = (assetId: string) => {
     // TODO [Level 1]: Dispatch removeWatchlistAsset when Remove is clicked
-    void removeWatchlistAsset
-    void assetId
-  }
+    dispatch(removeWatchlistAsset(assetId));
+    console.log(assetId);
+  };
 
   return (
     <section className="animate-slide-in rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5">
@@ -83,12 +84,14 @@ export function WatchlistPanel() {
             >
               <div>
                 <p className="font-medium">
-                  {asset.symbol}{' '}
+                  {asset.symbol}{" "}
                   <span className="text-xs uppercase text-[var(--color-muted)]">
                     {asset.type}
                   </span>
                 </p>
-                <p className="text-sm text-[var(--color-muted)]">{asset.name}</p>
+                <p className="text-sm text-[var(--color-muted)]">
+                  {asset.name}
+                </p>
               </div>
               <button
                 type="button"
@@ -102,5 +105,5 @@ export function WatchlistPanel() {
         )}
       </ul>
     </section>
-  )
+  );
 }

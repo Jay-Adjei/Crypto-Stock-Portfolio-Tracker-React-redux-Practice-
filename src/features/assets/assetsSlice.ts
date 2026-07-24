@@ -27,8 +27,8 @@ const assetsSlice = createSlice({
     },
     removeWatchlistAsset(state, action: PayloadAction<string>) {
       // TODO [Level 1]: Implement removeWatchlistAsset reducer
-      void state;
-      void action;
+      const asset = action.payload;
+      state.watchlist = state.watchlist.filter((item) => item.id !== asset);
     },
     // Worked example — holdings reducers are provided so Level 1 can focus on the watchlist.
     upsertHolding(state, action: PayloadAction<Holding>) {
