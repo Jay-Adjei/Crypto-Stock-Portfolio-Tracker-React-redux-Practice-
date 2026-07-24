@@ -19,8 +19,7 @@ const settingsSlice = createSlice({
   reducers: {
     setBaseCurrency(state, action: PayloadAction<FiatCurrency>) {
       // TODO [Level 1]: Implement setBaseCurrency reducer
-      void state
-      void action
+      state.baseCurrency = action.payload;
     },
     // Worked examples — polling prefs are provided for Level 3 wiring.
     togglePolling(state) {

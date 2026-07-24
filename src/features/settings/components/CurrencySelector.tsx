@@ -1,30 +1,30 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   setBaseCurrency,
   setPollingInterval,
   togglePolling,
-} from '../settingsSlice'
-import type { FiatCurrency } from '../../../types'
+} from "../settingsSlice";
+import type { FiatCurrency } from "../../../types";
 
-const CURRENCIES: FiatCurrency[] = ['USD', 'EUR', 'GBP']
+const CURRENCIES: FiatCurrency[] = ["USD", "EUR", "GBP"];
 
 export function CurrencySelector() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // TODO [Level 1]: Select baseCurrency from the store
-  const baseCurrency = useAppSelector(() => 'USD' as FiatCurrency)
+  const baseCurrency = useAppSelector(() => "USD" as FiatCurrency);
 
-  const pollingEnabled = useAppSelector((state) => state.settings.pollingEnabled)
+  const pollingEnabled = useAppSelector(
+    (state) => state.settings.pollingEnabled,
+  );
   const pollingIntervalMs = useAppSelector(
     (state) => state.settings.pollingIntervalMs,
-  )
+  );
 
   const handleCurrencyChange = (currency: FiatCurrency) => {
     // TODO [Level 1]: Dispatch setBaseCurrency from the settings UI
-    void setBaseCurrency
-    void currency
-    void dispatch
-  }
+    dispatch(setBaseCurrency(currency));
+  };
 
   return (
     <section className="animate-slide-in rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]/80 p-5">
@@ -58,7 +58,7 @@ export function CurrencySelector() {
           onClick={() => dispatch(togglePolling())}
           className="rounded-md bg-[var(--color-accent-dim)] px-3 py-2 text-sm font-medium text-white hover:bg-[var(--color-accent)]"
         >
-          Live ticker: {pollingEnabled ? 'On' : 'Off'}
+          Live ticker: {pollingEnabled ? "On" : "Off"}
         </button>
 
         <label className="text-sm text-[var(--color-muted)]">
@@ -76,5 +76,5 @@ export function CurrencySelector() {
         </label>
       </div>
     </section>
-  )
+  );
 }
