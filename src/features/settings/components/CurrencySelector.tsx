@@ -12,8 +12,6 @@ export function CurrencySelector() {
   const dispatch = useAppDispatch()
 
   // TODO [Level 1]: Select baseCurrency from the store
-  // Hint: useAppSelector((state) => state.settings.baseCurrency)
-  // FALLBACK: hard-coded USD so the select control still renders.
   const baseCurrency = useAppSelector(() => 'USD' as FiatCurrency)
 
   const pollingEnabled = useAppSelector((state) => state.settings.pollingEnabled)
@@ -23,7 +21,6 @@ export function CurrencySelector() {
 
   const handleCurrencyChange = (currency: FiatCurrency) => {
     // TODO [Level 1]: Dispatch setBaseCurrency from the settings UI
-    // Hint: dispatch(setBaseCurrency(currency))
     void setBaseCurrency
     void currency
     void dispatch

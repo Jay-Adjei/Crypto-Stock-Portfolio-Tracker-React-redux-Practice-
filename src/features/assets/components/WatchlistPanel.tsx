@@ -10,8 +10,6 @@ export function WatchlistPanel() {
   const dispatch = useAppDispatch()
 
   // TODO [Level 1]: Select watchlist from the store
-  // Hint: const watchlist = useAppSelector((state) => state.assets.watchlist)
-  // FALLBACK: empty array so the UI renders before you wire the selector.
   const watchlist = useAppSelector(() => EMPTY_WATCHLIST)
   void dispatch
 
@@ -28,14 +26,12 @@ export function WatchlistPanel() {
     }
 
     // TODO [Level 1]: Dispatch addWatchlistAsset from the watchlist UI
-    // Hint: dispatch(addWatchlistAsset(asset))
     void addWatchlistAsset
     void asset
   }
 
   const handleRemove = (assetId: string) => {
     // TODO [Level 1]: Dispatch removeWatchlistAsset when Remove is clicked
-    // Hint: dispatch(removeWatchlistAsset(assetId))
     void removeWatchlistAsset
     void assetId
   }
@@ -78,7 +74,7 @@ export function WatchlistPanel() {
       <ul className="mt-4 space-y-2">
         {watchlist.length === 0 ? (
           <li className="text-sm text-[var(--color-muted)]">
-            Watchlist is empty. Implement the reducer + dispatch wiring to add assets.
+            Watchlist is empty.
           </li>
         ) : (
           watchlist.map((asset) => (

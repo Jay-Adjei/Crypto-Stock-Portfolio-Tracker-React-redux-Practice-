@@ -22,9 +22,6 @@ export function LiveQuotesPanel() {
   }, [watchlistIds, holdingIds])
 
   // TODO [Level 3]: Enable RTK Query pollingInterval for live quotes
-  // Hint: pass options as the second argument:
-  //   { pollingInterval: pollingEnabled ? pollingIntervalMs : 0 }
-  // FALLBACK: one-shot fetch only (no polling) until you wire the option.
   void pollingEnabled
   void pollingIntervalMs
   const { data, error, isFetching, refetch } = useGetLiveQuotesQuery(assetIds)

@@ -19,9 +19,6 @@ const settingsSlice = createSlice({
   reducers: {
     setBaseCurrency(state, action: PayloadAction<FiatCurrency>) {
       // TODO [Level 1]: Implement setBaseCurrency reducer
-      // Hint: Assign action.payload to state.baseCurrency.
-      //
-      // FALLBACK: leave state unchanged so the app still compiles.
       void state
       void action
     },
