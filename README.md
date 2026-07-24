@@ -106,6 +106,51 @@ RootState
 
 ---
 
+## Where to work (TODO → file map)
+
+Search the codebase for `TODO [Level` or open these files directly. Every incomplete task lives in one of the paths below.
+
+| Level | Objective | File |
+| --- | --- | --- |
+| 1 | Implement `addWatchlistAsset` reducer | `src/features/assets/assetsSlice.ts` |
+| 1 | Implement `removeWatchlistAsset` reducer | `src/features/assets/assetsSlice.ts` |
+| 1 | Select watchlist from the store | `src/features/assets/components/WatchlistPanel.tsx` |
+| 1 | Dispatch `addWatchlistAsset` from the UI | `src/features/assets/components/WatchlistPanel.tsx` |
+| 1 | Dispatch `removeWatchlistAsset` from the UI | `src/features/assets/components/WatchlistPanel.tsx` |
+| 1 | Implement `setBaseCurrency` reducer | `src/features/settings/settingsSlice.ts` |
+| 1 | Select `baseCurrency` from the store | `src/features/settings/components/CurrencySelector.tsx` |
+| 1 | Dispatch `setBaseCurrency` from the UI | `src/features/settings/components/CurrencySelector.tsx` |
+| 2 | Handle `fetchMarketData.pending` | `src/features/market/marketSlice.ts` |
+| 2 | Handle `fetchMarketData.fulfilled` | `src/features/market/marketSlice.ts` |
+| 2 | Handle `fetchMarketData.rejected` | `src/features/market/marketSlice.ts` |
+| 3 | Memoized selector: total portfolio value | `src/features/portfolio/selectors.ts` |
+| 3 | Memoized selector: positions / allocation | `src/features/portfolio/selectors.ts` |
+| 3 | Memoized selector: top gainers | `src/features/portfolio/selectors.ts` |
+| 3 | Live price tick logic in middleware | `src/app/middleware/priceTickerMiddleware.ts` |
+| 3 | Enable RTK Query `pollingInterval` | `src/features/market/components/LiveQuotesPanel.tsx` |
+
+**Already provided (read these, don’t rewrite from scratch)**
+
+| Purpose | File |
+| --- | --- |
+| Store setup + middleware registration | `src/app/store.ts` |
+| Typed Redux hooks | `src/app/hooks.ts` |
+| Holdings reducers (worked Level 1 example) | `src/features/assets/assetsSlice.ts` (`upsertHolding` / `removeHolding`) |
+| Holdings UI (worked example) | `src/features/assets/components/HoldingsPanel.tsx` |
+| Mock market API (latency + random failures) | `src/features/market/mockMarketApi.ts` |
+| Async thunk definition for market fetch | `src/features/market/marketSlice.ts` (`fetchMarketData`) |
+| Market fetch UI (spinner / errors already wired) | `src/features/market/components/MarketDashboard.tsx` |
+| RTK Query API slice | `src/features/market/marketApi.ts` |
+| Portfolio summary UI (consumes your selectors) | `src/features/portfolio/components/PortfolioSummary.tsx` |
+
+Find every marker quickly:
+
+```bash
+git grep -n "TODO \[Level" -- src
+```
+
+---
+
 ## Learning levels
 
 ### Level 1 — Beginner (Watchlist & local state)
@@ -116,11 +161,12 @@ RootState
 - Write synchronous reducers with `createSlice`
 - Wire UI with `useAppDispatch` and `useAppSelector`
 
-**What to implement on `main`**
+**Files to edit**
 
-- `addWatchlistAsset` / `removeWatchlistAsset` reducers
-- `setBaseCurrency` reducer
-- Dispatch calls + selector wiring in watchlist / currency UI
+1. `src/features/assets/assetsSlice.ts` — `addWatchlistAsset` / `removeWatchlistAsset`
+2. `src/features/assets/components/WatchlistPanel.tsx` — `useAppSelector` + `dispatch`
+3. `src/features/settings/settingsSlice.ts` — `setBaseCurrency`
+4. `src/features/settings/components/CurrencySelector.tsx` — select currency + dispatch
 
 **Tagged tasks**
 
@@ -148,10 +194,14 @@ RootState
 - Handle `pending` / `fulfilled` / `rejected` in `extraReducers`
 - Surface loading spinners and error alerts in the UI
 
-**What to implement on `main`**
+**Files to edit**
 
-- `extraReducers` for `fetchMarketData`
-- Keep using the provided mock API (`mockMarketApi.ts`) which simulates latency and random failures
+1. `src/features/market/marketSlice.ts` — fill in `extraReducers` for `fetchMarketData`
+
+**Read-only helpers for this level**
+
+- `src/features/market/mockMarketApi.ts` — simulated network delay + failures
+- `src/features/market/components/MarketDashboard.tsx` — already dispatches the thunk and reads `status` / `error` / `quotes`
 
 **Tagged tasks**
 
@@ -176,11 +226,16 @@ RootState
 - Derive expensive portfolio metrics with `createSelector`
 - Avoid recalculating net worth / allocation on unrelated renders
 
-**What to implement on `main`**
+**Files to edit**
 
-- Memoized selectors for total value, positions/allocation, top gainers
-- Price-ticker middleware tick logic
-- RTK Query `pollingInterval` wiring
+1. `src/features/portfolio/selectors.ts` — total value, positions/allocation, top gainers
+2. `src/app/middleware/priceTickerMiddleware.ts` — `runTick` live price updates
+3. `src/features/market/components/LiveQuotesPanel.tsx` — `pollingInterval` on `useGetLiveQuotesQuery`
+
+**Read-only helpers for this level**
+
+- `src/features/market/marketApi.ts` — RTK Query endpoint
+- `src/features/portfolio/components/PortfolioSummary.tsx` — renders selector output
 
 **Tagged tasks**
 
@@ -202,9 +257,9 @@ RootState
 ## Suggested study path
 
 1. Read `src/app/store.ts` and `src/app/hooks.ts`
-2. Complete Level 1 in `assetsSlice`, `settingsSlice`, and their components
-3. Complete Level 2 in `marketSlice` (`extraReducers`)
-4. Complete Level 3 selectors, middleware, and RTK Query polling
+2. Level 1 → `assetsSlice.ts`, `WatchlistPanel.tsx`, `settingsSlice.ts`, `CurrencySelector.tsx`
+3. Level 2 → `marketSlice.ts` (`extraReducers` only)
+4. Level 3 → `selectors.ts`, `priceTickerMiddleware.ts`, `LiveQuotesPanel.tsx`
 5. Diff your work: `git diff solutions..main`
 
 ---
