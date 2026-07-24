@@ -25,16 +25,7 @@ export const selectFxMultiplier = createSelector(
   (currency: FiatCurrency) => FX_RATES[currency] ?? 1,
 )
 
-/**
- * TODO [Level 3]: Write memoized selector for total portfolio value
- *
- * Replace this naive function with createSelector([...inputs], (holdings, quotes, fx) => ...)
- * so the total is only recomputed when holdings, quotes, or FX change.
- *
- * Formula: sum(holding.quantity * quote.price * fx) for holdings that have quotes.
- *
- * FALLBACK: always returns 0 so the app compiles and renders.
- */
+// TODO [Level 3]: Write memoized selector for total portfolio value
 export const selectTotalPortfolioValue = (_state: RootState): number => {
   void selectHoldings
   void selectQuotes
@@ -43,16 +34,7 @@ export const selectTotalPortfolioValue = (_state: RootState): number => {
   return 0
 }
 
-/**
- * TODO [Level 3]: Write memoized selector for portfolio positions / allocation
- *
- * Build a PositionView[] with price, value, change24h, and allocationPct
- * (value / totalValue * 100). Sort by value descending.
- *
- * Prefer createSelector and reuse selectTotalPortfolioValue.
- *
- * FALLBACK: empty list.
- */
+// TODO [Level 3]: Write memoized selector for portfolio positions / allocation
 export const selectPortfolioPositions = (_state: RootState): PositionView[] => {
   void getAssetById
   void selectHoldings
@@ -62,14 +44,7 @@ export const selectPortfolioPositions = (_state: RootState): PositionView[] => {
   return []
 }
 
-/**
- * TODO [Level 3]: Write memoized selector for top gainers
- *
- * Union watchlist + holdings asset IDs, read change24h from quotes,
- * sort descending, return top 5.
- *
- * FALLBACK: empty list.
- */
+// TODO [Level 3]: Write memoized selector for top gainers
 export const selectTopGainers = (_state: RootState) => {
   void selectWatchlist
   void selectHoldings

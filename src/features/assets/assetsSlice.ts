@@ -21,23 +21,11 @@ const assetsSlice = createSlice({
   reducers: {
     addWatchlistAsset(state, action: PayloadAction<Asset>) {
       // TODO [Level 1]: Implement addWatchlistAsset reducer
-      // Hint: Skip duplicates, then push action.payload onto state.watchlist.
-      //
-      // Example shape (do not leave uncommented until you implement it):
-      // const exists = state.watchlist.some((asset) => asset.id === action.payload.id)
-      // if (!exists) {
-      //   state.watchlist.push(action.payload)
-      // }
-      //
-      // FALLBACK: leave state unchanged so the app still compiles.
       void state
       void action
     },
     removeWatchlistAsset(state, action: PayloadAction<string>) {
       // TODO [Level 1]: Implement removeWatchlistAsset reducer
-      // Hint: Filter state.watchlist where asset.id !== action.payload.
-      //
-      // FALLBACK: leave state unchanged so the app still compiles.
       void state
       void action
     },

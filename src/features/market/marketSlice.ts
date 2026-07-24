@@ -51,18 +51,8 @@ const marketSlice = createSlice({
   },
   extraReducers: (builder) => {
     // TODO [Level 2]: Handle fetchMarketData.pending in extraReducers
-    // Hint: set status to 'loading' and clear error.
-
     // TODO [Level 2]: Handle fetchMarketData.fulfilled in extraReducers
-    // Hint: set status to 'succeeded', stamp lastFetchedAt, and merge action.payload
-    // quotes into state.quotes by assetId.
-
     // TODO [Level 2]: Handle fetchMarketData.rejected in extraReducers
-    // Hint: set status to 'failed' and store the error message from action.payload
-    // (or action.error.message).
-
-    // FALLBACK: no lifecycle handlers yet — fetch button will dispatch, but UI state
-    // will not update until you implement the cases above.
     void builder
     void fetchMarketData
   },
