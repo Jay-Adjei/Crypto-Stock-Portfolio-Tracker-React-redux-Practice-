@@ -5,6 +5,7 @@ import {
   togglePolling,
 } from "../settingsSlice";
 import type { FiatCurrency } from "../../../types";
+import { use, useState } from "react";
 
 const CURRENCIES: FiatCurrency[] = ["USD", "EUR", "GBP"];
 
@@ -13,6 +14,7 @@ export function CurrencySelector() {
 
   // TODO [Level 1]: Select baseCurrency from the store
   const baseCurrency = useAppSelector(() => "USD" as FiatCurrency);
+  const [uiBaseCurrency, setUIBaseCurrency] = useState(baseCurrency || "");
 
   const pollingEnabled = useAppSelector(
     (state) => state.settings.pollingEnabled,
@@ -24,6 +26,7 @@ export function CurrencySelector() {
   const handleCurrencyChange = (currency: FiatCurrency) => {
     // TODO [Level 1]: Dispatch setBaseCurrency from the settings UI
     dispatch(setBaseCurrency(currency));
+    setUIBaseCurrency(currency);
   };
 
   return (
@@ -39,7 +42,7 @@ export function CurrencySelector() {
         Base currency
         <select
           className="mt-1 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2 text-[var(--color-text)]"
-          value={baseCurrency}
+          value={uiBaseCurrency}
           onChange={(event) =>
             handleCurrencyChange(event.target.value as FiatCurrency)
           }
