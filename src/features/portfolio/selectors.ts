@@ -45,9 +45,31 @@ export const selectPortfolioPositions = createSelector(
     selectFxMultiplier,
     selectTotalPortfolioValue,
   ],
-  (_asset, _holding, _quote, _fx, _portValue): PositionView[] => {
-    return [];
-  },
+  (asset, holdings, quotes, fx, portValue): PositionView[] => {
+  return holdings.map((holding) => {
+    const assetId = holding.assetId;  // Get assetId from holding
+    const assetData = asset;  // asset is already the looked-up asset
+    const symbol = assetData?.symbol ?? "";
+    const name = assetData?.name ?? "";
+    const type = assetData?.type;
+    const quantity = holding.quantity;  // Direct property access
+    const price = quotes[assetId]?.price ?? 0;
+    const value = quantity * price * fx;
+    const allocationPct = portValue > 0 ? (value / portValue) * 100 : 0;
+
+    return {
+      assetId,
+      symbol,
+      name,
+      type: type as Asset['type'],
+      quantity,
+      price,
+      value,
+      change24h: quotes[assetId]?.change24h ?? 0,
+      allocationPct,
+    };
+  });
+},
 );
 
 // TODO [Level 3]: Write memoized selector for top gainers
