@@ -46,46 +46,51 @@ export const selectPortfolioPositions = createSelector(
     selectTotalPortfolioValue,
   ],
   (asset, holdings, quotes, fx, portValue): PositionView[] => {
-  return holdings.map((holding) => {
-    const assetId = holding.assetId;  // Get assetId from holding
-    const assetData = asset;  // asset is already the looked-up asset
-    const symbol = assetData?.symbol ?? "";
-    const name = assetData?.name ?? "";
-    const type = assetData?.type;
-    const quantity = holding.quantity;  // Direct property access
-    const price = quotes[assetId]?.price ?? 0;
-    const value = quantity * price * fx;
-    const allocationPct = portValue > 0 ? (value / portValue) * 100 : 0;
+    return holdings.map((holding) => {
+      const assetId = holding.assetId; // Get assetId from holding
+      const assetData = asset; // asset is already the looked-up asset
+      const symbol = assetData?.symbol ?? "";
+      const name = assetData?.name ?? "";
+      const type = assetData?.type;
+      const quantity = holding.quantity; // Direct property access
+      const price = quotes[assetId]?.price ?? 0;
+      const value = quantity * price * fx;
+      const allocationPct = portValue > 0 ? (value / portValue) * 100 : 0;
 
-    return {
-      assetId,
-      symbol,
-      name,
-      type: type as Asset['type'],
-      quantity,
-      price,
-      value,
-      change24h: quotes[assetId]?.change24h ?? 0,
-      allocationPct,
-    };
-  });
-},
+      return {
+        assetId,
+        symbol,
+        name,
+        type: type as Asset["type"],
+        quantity,
+        price,
+        value,
+        change24h: quotes[assetId]?.change24h ?? 0,
+        allocationPct,
+      };
+    });
+  },
 );
 
 // TODO [Level 3]: Write memoized selector for top gainers
-export const selectTopGainers = (_state: RootState) => {
-  void selectWatchlist;
-  void selectHoldings;
-  void selectQuotes;
-  void getAssetById;
-  return [] as Array<{
-    assetId: string;
-    symbol: string;
-    name: string;
-    change24h: number;
-    price: number;
-  }>;
-};
+export const selectTopGainers = createSelector(
+  [selectWatchlist, selectHoldings, selectQuotes],
+  (list, holdings, quotes) => {
+    return holdings.map((holding) => {
+      const asset = getAssetById(holding.assetId);
+      const assetId = asset?.id;
+      const symbol = asset?.symbol;
+      const name = asset?.name;
+      return {
+        assetId,
+        symbol,
+        name,
+        change24h: quotes[holding?.assetId]?.change24h ?? 0,
+        price: quotes[holding?.assetId]?.price ?? 0,
+      };
+    });
+  },
+);
 
 export const selectAllocationBreakdown = createSelector(
   [selectPortfolioPositions],
